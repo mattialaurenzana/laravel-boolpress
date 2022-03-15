@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,14 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Auth::routes();
 
 Route::get('/admin', 'Admin\HomeController@index')->name('admin.home');
 
-Route::get("{any?}",function(){
-    return view("guest.home");
-})->where("any",".*");
+// Route::get("{any?}",function(){
+//     return view("guest.home");
+// })->where("any",".*");
+
+
+Route::middleware("auth")->namespace("Admin")->prefix("admin")->name("admin.")->group(function(){
+    Route::resource("posts","PostController");
+});
