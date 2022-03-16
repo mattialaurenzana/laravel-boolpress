@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -27,7 +29,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create',compact("categories"));
     }
 
     /**
@@ -40,7 +43,8 @@ class PostController extends Controller
     {
         $data = $request->validate([
             "title"=>"required|min:6",
-            "content"=>"required|min:25"
+            "content"=>"required|min:25",
+            "category_id"=>"nullable"
         ]);
        $post = new Post();
        $post->fill($data);
@@ -60,7 +64,8 @@ class PostController extends Controller
        }
 
        $post->slug = $slug;
-
+       $post->user_id = Auth::id(); //all'atto della creazione di un nuovo post assegno alla collonna user_id l'id dello user attualmente loggato
+       
  
        $post->save();
 
@@ -85,9 +90,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $post = Post::where("slug",$slug)->first();
+        return view('admin.posts.edit',compact("post"));
     }
 
     /**
@@ -101,7 +107,8 @@ class PostController extends Controller
     {
         $data = $request->validate([
             "title"=>"required|min:6",
-            "content"=>"required|min:25"
+            "content"=>"required|min:25",
+            "category_id"=>"nullable"
         ]);
 
         $post = Post::findOrFail($id);
