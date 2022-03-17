@@ -26,6 +26,15 @@
                           <textarea name="content" class="form-control  @error('content') is-invalid @enderror" placeholder="Inserisci il contenuto">{{$post->content}}{{old('content')}}</textarea>
                           @error('content') <div class="invalid-feedback">{{$message}}</div> @enderror
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label">Category</label>
+                            <select name="category_id" class="form-select">
+                                <option>--nessuna categoria--</option>
+                                @foreach($categories as $category)
+                                    <option value="{{$category->id}}" @if ($post->category_id === $category->id) selected @endif>{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <button type="submit" class="btn btn-primary">Salva post</button>
                         <a href="{{route('admin.posts.index')}}" class="btn btn-danger">Annulla</a>
                       </form>

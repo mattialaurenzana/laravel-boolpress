@@ -18,6 +18,8 @@
                             <hr>
                             Content: {{$post->content}} <br>
                             <hr>
+                            Category: {{$post->category->name}} <br>
+                            <hr>
                             Utente: {{$post->user->name}} <br>
                             <hr>
                             Email: {{$post->user->email}} <br>
