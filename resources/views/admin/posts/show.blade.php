@@ -26,7 +26,12 @@
                             <hr>
                             Data creazione: {{$post->created_at}} <br>
                             <hr>
-                            Ultima modifica: {{$post->updated_at}}
+                            Ultima modifica: {{$post->updated_at}} <br>
+                            <hr>
+                            Tags: 
+                            @foreach ($post->tags as $tag)
+                                {{$tag->name}},
+                            @endforeach
                         </li>
                         
                     </ul>

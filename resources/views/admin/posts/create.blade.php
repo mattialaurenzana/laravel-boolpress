@@ -36,6 +36,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <div class="mb-0"><label class="form-label mb-0">Tags</label></div>
+                            @foreach ($tags as $tag)
+                               <div class="form-check form-check-inline">
+                                    <input type="checkbox" class="form-check-input" id="{{$tag->name}}" name="tags[]" value="{{$tag->id}}">
+                                    <label class="form-check-label" for="{{$tag->name}}">{{$tag->name}}</label>    
+                               </div>                              
+                            @endforeach
+                        </div>
                         <button type="submit" class="btn btn-primary">Salva post</button>
                         <a href="{{route('admin.posts.index')}}" class="btn btn-danger">Annulla</a>
                       </form>

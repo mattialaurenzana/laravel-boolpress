@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Category;
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -30,7 +31,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('admin.posts.create',compact("categories"));
+        $tags = Tag::all(); //vado a memorizzare nella variabile $tags tutti i record della tabella tags (model Tag)
+        return view('admin.posts.create',compact(["categories","tags"]));
     }
 
     /**
@@ -40,6 +42,7 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
+    
     {
         $data = $request->validate([
             "title"=>"required|min:6",
@@ -68,6 +71,10 @@ class PostController extends Controller
        
  
        $post->save();
+       if(key_exists("tags",$data)){
+        $post->tags()->detach();
+        $post->tags()->attach($data["tags"]);
+    }
 
        return redirect()->route('admin.posts.index');
     }
@@ -94,7 +101,8 @@ class PostController extends Controller
     {
         $post = Post::where("slug",$slug)->first();
         $categories = Category::all();
-        return view('admin.posts.edit',compact("post","categories"));
+        $tags = Tag::all();
+        return view('admin.posts.edit',compact(["post","categories","tags"]));
     }
 
     /**
@@ -104,15 +112,17 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
+        
         $data = $request->validate([
             "title"=>"required|min:6",
             "content"=>"required|min:25",
-            "category_id"=>"nullable"
+            "category_id"=>"nullable",
+            "tags"=>"nullable"
         ]);
 
-        $post = Post::findOrFail($id);
+        $post = Post::where("slug",$slug)->first();
 
         if($data["title"] !== $post->title){ //significa che l'utente ha cambiato il titolo,devo rigenerare lo slug del post
 
@@ -134,7 +144,11 @@ class PostController extends Controller
         }
 
         $post->update($data);
-        return redirect()->route("admin.posts.show",$post->id);
+        if(key_exists("tags",$data)){
+            $post->tags()->detach();
+            $post->tags()->attach($data["tags"]);
+        }
+        return redirect()->route("admin.posts.show",$post->slug);
     }
 
     /**
