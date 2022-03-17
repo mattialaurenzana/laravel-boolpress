@@ -7,9 +7,10 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header d-flex align-items-center">
-                    <span><button type="button" class="btn btn-link"><a href="{{route('admin.posts.index')}}"><--</a></button></span>
+                    <span><button type="button" class="btn btn-link"><a href="{{route('admin.posts.index')}}"><i class="fa-solid fa-arrow-left" title="Back"></i></a></button></span>
                     Dettagli post {{$post->id}}
-                    <a href="{{route('admin.posts.edit',$post->slug)}}" class="ms-auto">Modifica</a>
+                    <a href="{{route('admin.posts.edit',$post->slug)}}" class="ms-auto"><i class="fa-solid fa-pen-to-square" title="Modifica post"></i></a>
+                    
                 </div>
                 <div class="card-body">
                     <ul class="list-group">

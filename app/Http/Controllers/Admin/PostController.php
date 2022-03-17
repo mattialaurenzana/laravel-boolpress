@@ -19,7 +19,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $user = Auth::id();
+        $posts = Post::all()->where("user_id",$user);
         return view('admin.posts.index',compact("posts"));
     }
 
@@ -157,8 +158,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $post = Post::where("slug",$slug)->first();
+        $post->tags()->detach();
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }
