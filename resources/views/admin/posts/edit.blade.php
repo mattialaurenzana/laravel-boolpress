@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Modifica post {{$post->id}}
+                    <span class="fw-bold fs-4">Modifica post {{$post->id}}</span>
                 </div>
                 <div class="card-body">
                     <form action="{{route('admin.posts.update',$post->slug)}}" method="POST">
@@ -26,6 +26,13 @@
                           <label for="exampleInputContent" class="form-label">Content</label>
                           <textarea name="content" class="form-control  @error('content') is-invalid @enderror" placeholder="Inserisci il contenuto">{{$post->content}}{{old('content')}}</textarea>
                           @error('content') <div class="invalid-feedback">{{$message}}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Url image</label>
+                            <input type="url" class="form-control  @error('post_img') is-invalid @enderror" name="post_img"  value="{{$post->post_img}}" value="{{old('post_img')}}">
+                            @error('post_img')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Category</label>

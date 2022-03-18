@@ -48,7 +48,10 @@ class PostController extends Controller
         $data = $request->validate([
             "title"=>"required|min:6",
             "content"=>"required|min:25",
-            "category_id"=>"nullable"
+            "post_img"=>"nullable",
+            "category_id"=>"nullable",
+            "tags"=>"nullable",
+            
         ]);
        $post = new Post();
        $post->fill($data);
@@ -120,7 +123,8 @@ class PostController extends Controller
             "title"=>"required|min:6",
             "content"=>"required|min:25",
             "category_id"=>"nullable",
-            "tags"=>"nullable"
+            "tags"=>"nullable",
+            "post_img"=>"nullable"
         ]);
 
         $post = Post::where("slug",$slug)->first();

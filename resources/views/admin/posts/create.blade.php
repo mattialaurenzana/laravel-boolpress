@@ -7,7 +7,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    Aggiunta di un nuovo post
+                    <span class="fw-bold fs-4">Aggiunta di un nuovo post</span>
                 </div>
                 <div class="card-body">
                     <form action="{{route('admin.posts.store')}}" method="POST">
@@ -26,6 +26,13 @@
                           <label for="exampleInputContent" class="form-label">Content</label>
                           <textarea name="content" class="form-control  @error('content') is-invalid @enderror" placeholder="Inserisci il contenuto">{{old('content')}}</textarea>
                           @error('content') <div class="invalid-feedback">{{$message}}</div> @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Url image</label>
+                            <input type="url" placeholder="https://example.com" class="form-control @error('post_img') is-invalid @enderror" name="post_img" value="{{old('post_img')}}">
+                            @error('post_img')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Category</label>

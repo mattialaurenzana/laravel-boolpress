@@ -1,11 +1,17 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    <div class="container">
+    <div class="container container-1">
         <a class="navbar-brand" href="{{ url('/') }}">
             {{ config('app.name', 'Laravel') }}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
+        
+        <div class="d-flex align-items-center">
+            <div class="nav-item">
+                <a href="{{route('admin.posts.index')}}" class="nav-link fw-bold text-decoration-underline fs-5">Posts</a>
+            </div>
+        </div>
 
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
@@ -45,9 +51,6 @@
                         </div>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="{{route('admin.posts.index')}}" class="nav-link">Posts</a>
-                    </li>
                 @endguest
             </ul>
         </div>
