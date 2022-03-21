@@ -11,9 +11,10 @@
                     <div class="card-body">
                         <h4 class="card-title">{{post.title}}</h4>
                         <p class="card-text">{{post.content}}</p>
+                        <p class="card-text">Data di creazione: {{formatDate(post.created_at)}}</p>
                         <p class="card-text">Category: {{post.category.name}}</p>
                         <p class="card-text" v-if="post.tags.length !== 0">
-                            Tags: <span v-for="tag of post.tags" :key="tag.id">{{tag.name}},</span>
+                            Tags: <span v-for="tag of post.tags" :key="tag.id" class="tag-container m-2">{{tag.name}}</span>
                         </p>
                         <span class="card-text">User: {{post.user.name}}</span>
                         <div class="card-text">Email: {{post.user.email}}</div>
@@ -29,9 +30,15 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 export default {
     props: {
         posts: Array
+    },
+    methods: {
+        formatDate(date){
+            return dayjs(date).format("DD/MM/YYYY");
+        }
     }
 }
 </script>
@@ -56,5 +63,12 @@ export default {
             position: relative;
 
         }
+    }
+
+    .tag-container{
+        background-color: grey;
+        color: white;
+        padding: 10px;
+        border-radius: 40px;
     }
 </style>
