@@ -11,6 +11,9 @@
             <div class="nav-item">
                 <a href="{{route('admin.posts.index')}}" class="nav-link fw-bold text-decoration-underline fs-5">Posts</a>
             </div>
+            <div class="nav-item">
+                <a href="{{route('admin.users.index')}}" class="nav-link fw-bold text-decoration-underline fs-5">Users</a>
+            </div>
         </div>
 
         <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarSupportedContent">
