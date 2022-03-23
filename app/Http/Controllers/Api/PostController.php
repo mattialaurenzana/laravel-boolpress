@@ -83,9 +83,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $post = Post::where("id",$id)->with("tags")->get();
+        $post = Post::where("slug",$slug)->first();
+        $post->load(["user","tags","category"]);
+
+        if(!$post){
+    abort(404);
+        }
+
         return response()->json($post);
     }
 

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="title-container p-3 d-flex align-items-center justify-content-center fw-bold">
+        <div class="title-container p-2 d-flex align-items-center justify-content-center fw-bold">
             <h1>Lista post</h1>
         </div>
         <div class="row row-cols-1 row-cols-md-4 g-4 p-5">
@@ -12,14 +12,14 @@
                         <h4 class="card-title">{{post.title}}</h4>
                         <p class="card-text">{{post.content}}</p>
                         <p class="card-text">Data di creazione: {{formatDate(post.created_at)}}</p>
-                        <p class="card-text">Category: {{post.category.name}}</p>
+                        <p class="card-text" v-if="post.category">Category: {{post.category.name}}</p>
                         <p class="card-text" v-if="post.tags.length !== 0">
-                            Tags: <span v-for="tag of post.tags" :key="tag.id" class="tag-container m-2">{{tag.name}}</span>
+                            Tags: <span v-for="tag of post.tags" :key="tag.id" class="tag-container m-1">{{tag.name}}</span>
                         </p>
                         <span class="card-text">User: {{post.user.name}}</span>
                         <div class="card-text">Email: {{post.user.email}}</div>
                         <div class="card-footer d-flex justify-content-end">
-                            <a href="">Dettagli</a>
+                            <router-link :to="{name : 'posts.show',params:{post: post.slug}}">Dettagli</router-link>
                         </div>
                     </div>
                 </div>
@@ -39,15 +39,15 @@ export default {
         formatDate(date){
             return dayjs(date).format("DD/MM/YYYY");
         }
-    }
+    },
+
 }
 </script>
 
 <style lang="scss">
 
     .title-container{
-        height: 50px;
-        background-color: black;
+        background-color: rgb(66, 63, 63);
         color: white;
     }
     .card {
@@ -68,7 +68,7 @@ export default {
     .tag-container{
         background-color: grey;
         color: white;
-        padding: 10px;
-        border-radius: 40px;
+        padding: 5px;
+        border-radius: 80px;
     }
 </style>
