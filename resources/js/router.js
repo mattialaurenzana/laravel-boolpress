@@ -31,6 +31,7 @@ const router = new VueRouter({
         {
             path: "*",
             component: Error,
+            name: "error",
             meta: {title: "Error"}
 
         }

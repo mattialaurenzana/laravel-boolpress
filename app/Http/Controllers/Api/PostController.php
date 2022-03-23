@@ -86,11 +86,13 @@ class PostController extends Controller
     public function show($slug)
     {
         $post = Post::where("slug",$slug)->first();
-        $post->load(["user","tags","category"]);
 
         if(!$post){
-    abort(404);
-        }
+            abort(404);
+           }
+        $post->load(["user","tags","category"]);
+
+       
 
         return response()->json($post);
     }
