@@ -8,8 +8,8 @@
             <div class="card-text"><span class="fw-bold bolder-element">Title</span>: {{post.title}}</div>
             <div class="card-text"><span class="fw-bold bolder-element">Content</span>: {{post.content}}</div>
             <div class="card-text d-flex align-items-center" v-if="post.category"><span class="fw-bold bolder-element">Category</span>: <span class="category ms-2">{{post.category.name}}</span></div>
-             <div class="card-text d-flex align-items-center" v-if="post.tags.length !==0">
-                <span class="fw-bold bolder-element">Tags</span>: <span v-for="tag of post.tags" :key="tag.id" class="tag-container m-1">{{tag.name}}</span>
+             <div class="card-text d-flex align-items-center" v-if="post.tags">
+                <span class="fw-bold bolder-element" v-if="post.tags.length !== 0" >Tags:</span><span v-for="tag of post.tags" :key="tag.id" class="tag-container m-1">{{tag.name}}</span>
              </div>
         </div>
     </div>

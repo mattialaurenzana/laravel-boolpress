@@ -1,7 +1,7 @@
 <template>
   <div>
       <div class="error">
-          <h1>error 404 Not fund</h1>
+          <h1>404 | Not fund</h1>
       </div>
   </div>
 </template>
