@@ -2337,6 +2337,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2345,6 +2348,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
+      searchText: "",
       loading: true,
       posts: [],
       pagination: {}
@@ -2356,12 +2360,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var page, resp;
+        var page, searchText, resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 page = _arguments.length > 0 && _arguments[0] !== undefined ? _arguments[0] : 1;
+                searchText = _arguments.length > 1 && _arguments[1] !== undefined ? _arguments[1] : null;
 
                 //di default è sempre la prima pagina
                 if (page < 1) {
@@ -2372,16 +2377,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   page = _this.pagination.last_page;
                 }
 
-                _context.next = 5;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('http://127.0.0.1:8000/api/posts?page=' + page);
+                _context.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('http://127.0.0.1:8000/api/posts', {
+                  params: {
+                    page: page,
+                    filter: searchText
+                  }
+                });
 
-              case 5:
+              case 6:
                 resp = _context.sent;
                 _this.pagination = resp.data;
                 _this.posts = resp.data.data;
                 _this.loading = false; //setto la variabile a false, indicando che il caricamento è finito
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -2393,6 +2403,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       if (page === this.pagination.current_page) {
         return 'active';
       }
+    },
+    searchMethod: function searchMethod() {
+      this.fetchPosts(1, this.searchText);
     }
   },
   mounted: function mounted() {
@@ -4839,7 +4852,7 @@ var render = function () {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "row row-cols-1 row-cols-md-4 g-4 p-5" },
+      { staticClass: "row row-cols-1 row-cols-md-4 g-4 p-3" },
       _vm._l(_vm.posts, function (post) {
         return _c("div", { key: post.id, staticClass: "col" }, [
           _c("div", { staticClass: "card p-2" }, [
@@ -5325,67 +5338,113 @@ var render = function () {
           ])
         : _vm._e(),
       _vm._v(" "),
+      _c("div", { staticClass: "my-3 ms-3" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchText,
+              expression: "searchText",
+            },
+          ],
+          staticClass: "form-input",
+          attrs: { type: "text", placeholder: "Cerca il titolo di un post" },
+          domProps: { value: _vm.searchText },
+          on: {
+            keydown: function ($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+              ) {
+                return null
+              }
+              return _vm.searchMethod.apply(null, arguments)
+            },
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.searchText = $event.target.value
+            },
+          },
+        }),
+      ]),
+      _vm._v(" "),
       !_vm.loading
         ? _c("post-container", { attrs: { posts: _vm.posts } })
         : _vm._e(),
       _vm._v(" "),
       !_vm.loading
-        ? _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-            _c(
-              "ul",
-              { staticClass: "pagination justify-content-center" },
-              [
-                _c("li", { staticClass: "page-item" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "page-link",
-                      on: {
-                        click: function ($event) {
-                          return _vm.fetchPosts(_vm.pagination.current_page - 1)
-                        },
-                      },
-                    },
-                    [_vm._v("Previous")]
-                  ),
-                ]),
-                _vm._v(" "),
-                _vm._l(_vm.pagination.last_page, function (page) {
-                  return _c("li", { key: page, staticClass: "page-item" }, [
+        ? _c(
+            "nav",
+            {
+              staticClass: "m-5",
+              attrs: { "aria-label": "Page navigation example" },
+            },
+            [
+              _c(
+                "ul",
+                { staticClass: "pagination justify-content-center" },
+                [
+                  _c("li", { staticClass: "page-item" }, [
                     _c(
                       "a",
                       {
                         staticClass: "page-link",
-                        class: _vm.checkPage(page),
                         on: {
                           click: function ($event) {
-                            return _vm.fetchPosts(page)
+                            return _vm.fetchPosts(
+                              _vm.pagination.current_page - 1,
+                              _vm.searchText
+                            )
                           },
                         },
                       },
-                      [_vm._v(_vm._s(page))]
+                      [_vm._v("Previous")]
                     ),
-                  ])
-                }),
-                _vm._v(" "),
-                _c("li", { staticClass: "page-item" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "page-link",
-                      on: {
-                        click: function ($event) {
-                          return _vm.fetchPosts(_vm.pagination.current_page + 1)
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.pagination.last_page, function (page) {
+                    return _c("li", { key: page, staticClass: "page-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "page-link",
+                          class: _vm.checkPage(page),
+                          on: {
+                            click: function ($event) {
+                              return _vm.fetchPosts(page)
+                            },
+                          },
+                        },
+                        [_vm._v(_vm._s(page))]
+                      ),
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "page-item" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "page-link",
+                        on: {
+                          click: function ($event) {
+                            return _vm.fetchPosts(
+                              _vm.pagination.current_page + 1,
+                              _vm.searchText
+                            )
+                          },
                         },
                       },
-                    },
-                    [_vm._v("Next")]
-                  ),
-                ]),
-              ],
-              2
-            ),
-          ])
+                      [_vm._v("Next")]
+                    ),
+                  ]),
+                ],
+                2
+              ),
+            ]
+          )
         : _vm._e(),
     ],
     1

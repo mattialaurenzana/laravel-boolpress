@@ -14,9 +14,16 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $posts = Post::paginate(7);
+    public function index(Request $request)
+{
+
+        $filter = $request->input("filter");
+        if($filter){
+            $posts = Post::where("title","LIKE","%$filter%")->paginate(7);
+        }else{
+            $posts = Post::paginate(7);
+        }
+        
         $posts->load(["user","category","tags"]);
         return response()->json($posts);
 

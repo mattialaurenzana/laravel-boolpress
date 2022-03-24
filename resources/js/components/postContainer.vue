@@ -3,7 +3,7 @@
         <div class="title-container p-2 d-flex align-items-center justify-content-center fw-bold">
             <h1>Lista post</h1>
         </div>
-        <div class="row row-cols-1 row-cols-md-4 g-4 p-5">
+        <div class="row row-cols-1 row-cols-md-4 g-4 p-3">
             <div class="col" v-for="post of posts" :key="post.id">
                 <div class="card p-2">
                     <img v-if="post.post_img" :src="post.post_img" class="card-img-top" alt="...">
