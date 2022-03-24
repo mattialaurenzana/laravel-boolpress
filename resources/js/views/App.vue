@@ -3,9 +3,7 @@
       <thenavbar></thenavbar>
       
       <router-view></router-view> <!--componente preposto a stampare le pagine-->
-      
 
-      
   </div>
 </template>
 
